@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>STS Kimia XI - SMAN 29 Maluku Tengah</title>
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --primary-hover: #1e40af;
+            --accent-blue: #3b82f6;
+            --light-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border-color: #e2e8f0;
+            --success-green: #10b981;
+            --success-light: #d1fae5;
+            --warning-yellow: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger-red: #ef4444;
+            --danger-light: #fee2e2;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 30px;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 38px;
+            height: 38px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255,255,255,0.4);
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .header-title p {
+            font-size: 0.72rem;
+            opacity: 0.85;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-offline {
+            background-color: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #ecfdf5;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .dot-green {
+            width: 6px;
+            height: 6px;
+            background-color: #10b981;
+            border-radius: 50%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary { background-color: var(--primary-blue); color: white; }
+        .btn-primary:active { background-color: var(--primary-hover); transform: scale(0.98); }
+        .btn-secondary { background-color: #f1f5f9; color: var(--text-main); border: 1px solid var(--border-color); }
+        .btn-warning { background-color: var(--warning-yellow); color: #78350f; }
+        .btn-danger { background-color: var(--danger-red); color: white; }
+
+        .form-group { margin-bottom: 16px; text-align: left; }
+        .form-group label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
+        .form-control { width: 100%; padding: 12px 14px; font-size: 0.95rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background-color: #fff; color: var(--text-main); outline: none; }
+        .form-control:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
+
+        .exam-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .timer-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--danger-red);
+            background: var(--danger-light);
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .question-badge {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+            background: #eff6ff;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .question-text { font-size: 1rem; color: var(--text-main); margin-bottom: 20px; line-height: 1.6; text-align: left; }
+        .options-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: #fff;
+            text-align: left;
+        }
+
+        .option-item:hover, .option-item:active { border-color: var(--accent-blue); background: #f0f9ff; }
+        .option-item.selected { border-color: var(--primary-blue); background-color: #eff6ff; font-weight: 600; }
+
+        .option-key {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 12px;
+            flex-shrink: 0;
+            color: var(--text-muted);
+        }
+
+        .option-item.selected .option-key { background: var(--primary-blue); color: white; }
+        .option-content { font-size: 0.95rem; flex-grow: 1; }
+
+        .essay-textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            outline: none;
+            resize: vertical;
+        }
+
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 16px; }
+        .nav-num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; border-radius: 8px; background: #f1f5f9; border: 1px solid var(--border-color); cursor: pointer; }
+        .nav-num.answered { background-color: var(--success-green); color: white; border-color: var(--success-green); }
+        .nav-num.doubt { background-color: var(--warning-yellow); color: #78350f; border-color: var(--warning-yellow); }
+        .nav-num.current { border: 2px solid var(--primary-blue); box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.2); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 16px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: white; border-radius: var(--radius-lg); width: 100%; max-width: 500px; padding: 24px; box-shadow: var(--shadow-md); max-height: 90vh; overflow-y: auto; text-align: left; }
+
+        .action-row { display: flex; gap: 10px; margin-top: 16px; }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        .text-center { text-align: center; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mt-2 { margin-top: 8px; }
+        .mt-4 { margin-top: 16px; }
+        .text-muted { color: var(--text-muted); font-size: 0.875rem; }
+
+        .alert { padding: 12px 16px; border-radius: var(--radius-md); font-size: 0.875rem; margin-bottom: 16px; }
+        .alert-warning { background: var(--warning-light); color: #92400e; border: 1px solid #fcd34d; }
+        .alert-info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+
+        .score-card { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2px dashed var(--accent-blue); text-align: center; padding: 20px; border-radius: var(--radius-lg); margin-bottom: 20px; }
+        .score-val { font-size: 3rem; font-weight: 800; color: var(--primary-blue); line-height: 1; margin: 10px 0; }
+
+        .main-menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0 10px 0; }
+        .menu-card { background: #ffffff; border: 2px solid var(--border-color); border-radius: var(--radius-md); padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+        .menu-card:hover, .menu-card:active { border-color: var(--accent-blue); background: #f0f9ff; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .menu-card .menu-icon { font-size: 2rem; line-height: 1; }
+        .menu-card .menu-title { font-weight: 700; font-size: 0.95rem; color: var(--primary-blue); }
+        .menu-card .menu-desc { font-size: 0.75rem; color: var(--text-muted); }
+
+        .certificate-box { background: #ffffff; border: 8px double var(--primary-blue); border-radius: var(--radius-lg); padding: 30px 20px; text-align: center; position: relative; box-shadow: var(--shadow-md); margin-bottom: 20px; }
+        .cert-header { border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px; }
+        .cert-title { font-size: 1.3rem; font-weight: 800; color: var(--primary-blue); letter-spacing: 1px; text-transform: uppercase; }
+        .cert-stamp { display: inline-block; border: 2px dashed var(--success-green); color: var(--success-green); padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; margin-top: 10px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-brand">
+            <button id="btn-header-back" onclick="goBackView()" style="display:none; background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4); color:white; border-radius:8px; padding:6px 12px; font-weight:bold; font-size:0.85rem; cursor:pointer; align-items:center; gap:4px;">
+                &larr; Kembali
+            </button>
+            <div class="header-logo">K</div>
+            <div class="header-title">
+                <h1>SMAN 29 Maluku Tengah</h1>
+                <p>STS Kimia XI - Kurikulum Merdeka</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="badge-offline">
+                <span class="dot-green"></span> Offline
+            </div>
+            <button onclick="bukaDasborGuru()" style="background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;" title="Dasbor Guru">⚙️</button>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section id="view-beranda" class="view-section active">
+            <div class="card text-center">
+                <h2 style="color: var(--primary-blue); margin-bottom: 6px;">ASESMEN SUMATIF TENGAH SEMESTER</h2>
+                <h3 style="color: var(--text-muted); font-size: 1rem; font-weight: 600;" class="mb-4">MATA PELAJARAN KIMIA KELAS XI</h3>
+                
+                <div class="alert alert-info text-center mb-4">
+                    <strong>Tahun Pelajaran 2024/2025 - Semester Ganjil</strong><br>
+                    Guru Pengampu: <strong>Muh. Kasim Wattimena, S.Pd.</strong>
+                </div>
+
+                <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Pilih Menu Utama:</p>
+                <div class="main-menu-grid">
+                    <div class="menu-card" onclick="switchView('view-identitas')">
+                        <div class="menu-icon">📝</div>
+                        <div class="menu-title">Mulai Ujian</div>
+                        <div class="menu-desc">Isi identitas & pengerjaan soal</div>
+                    </div>
+                    <div class="menu-card" onclick="bukaProfil()">
+                        <div class="menu-icon">👤</div>
+                        <div class="menu-title">Profil</div>
+                        <div class="menu-desc">Data peserta & sekolah</div>
+                    </div>
+                    <div class="menu-card" onclick="bukaMenuHasil()">
+                        <div class="menu-icon">📊</div>
+                        <div class="menu-title">Hasil</div>
+                        <div class="menu-desc">Lihat nilai & ekspor JSON</div>
+                    </div>
+                    <div class="menu-card" onclick="bukaSertifikat()">
+                        <div class="menu-icon">📜</div>
+                        <div class="menu-title">Sertifikat</div>
+                        <div class="menu-desc">Bukti kelulusan / apresiasi</div>
+                    </div>
+                </div>
+
+                <div class="menu-card mt-2" onclick="bukaDasborGuru()" style="border-style: dashed; background: #faf5ff;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span style="font-size: 1.3rem;">👨‍🏫</span>
+                        <span class="menu-title" style="color: #6b21a8;">Dasbor Guru (Muh. Kasim Wattimena, S.Pd.)</span>
+                    </div>
+                </div>
+
+                <div style="text-align: left; background: #f8fafc; padding: 14px; border-radius: 10px; margin-top: 16px; font-size: 0.85rem;">
+                    <p><strong>Rincian Asesmen:</strong></p>
+                    <ul style="padding-left: 20px; margin-top: 6px;">
+                        <li><strong>Bentuk Soal:</strong> 20 Pilihan Ganda + 5 Uraian (Esai HOTS)</li>
+                        <li><strong>Durasi Waktu:</strong> <span id="label-durasi">90</span> Menit</li>
+                        <li><strong>Mode Akses:</strong> Offline (Tanpa Internet)</li>
+                        <li><strong>Cakupan Materi:</strong> Hidrokarbon & Konsep Mol / Stoikiometri</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-identitas" class="view-section">
+            <div class="card">
+                <h3 class="mb-2" style="color: var(--primary-blue);">Formulir Identitas Peserta Didik</h3>
+                <p class="text-muted mb-4">Lengkapi data diri Anda dengan teliti sebelum memulai ujian.</p>
+
+                <div class="form-group">
+                    <label>Nama Lengkap Siswa *</label>
+                    <input type="text" id="student-name" class="form-control" placeholder="Contoh: Ahmad Wattimena">
+                </div>
+
+                <div class="form-group">
+                    <label>Pilihan Kelas *</label>
+                    <select id="student-class" class="form-control">
+                        <option value="">-- Pilih Kelas --</option>
+                        <option value="XI.A">XI.A</option>
+                        <option value="XI.B">XI.B</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Nomor Peserta / Absen *</label>
+                    <input type="text" id="student-no" class="form-control" placeholder="Contoh: 01">
+                </div>
+
+                <div class="action-row">
+                    <button class="btn btn-secondary" onclick="goBackView()">&larr; Kembali</button>
+                    <button class="btn btn-primary" onclick="simpanIdentitas()">Lanjutkan ke Petunjuk &rarr;</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-petunjuk" class="view-section">
+            <div class="card">
+                <h3 class="mb-2" style="color: var(--primary-blue);">Petunjuk Pengerjaan Ujian</h3>
+                <div class="alert alert-warning mb-4">
+                    <strong>⚠️ Perhatian Penting:</strong> Ujian berjalan secara lokal pada HP ini. Jangan berpindah tab atau memuat ulang halaman selama ujian berlangsung.
+                </div>
+
+                <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95rem; text-align: left;" class="mb-4">
+                    <li>Bacalah setiap soal dengan teliti dan pilih jawaban paling tepat.</li>
+                    <li>Jawaban tersimpan secara otomatis di memori internal HP Anda.</li>
+                    <li>Gunakan fitur <strong>RAGU-RAGU</strong> untuk menandai soal yang belum yakin.</li>
+                    <li>Waktu akan terus berjalan secara otomatis.</li>
+                    <li>Pastikan Anda mengklik <strong>EKSPOR FILE JAWABAN (JSON)</strong> di akhir ujian untuk diserahkan kepada Pak Kasim.</li>
+                </ul>
+
+                <div class="action-row">
+                    <button class="btn btn-secondary" onclick="switchView('view-identitas')">&larr; Kembali ke Identitas</button>
+                    <button class="btn btn-primary" onclick="mulaiUjianSimpan()">🚀 SAYA SIAP MENGERJAKAN UJIAN</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-ujian" class="view-section">
+            <div class="exam-bar">
+                <div class="question-badge" id="lbl-question-num">Soal No 1 / 25</div>
+                <div class="timer-box">
+                    <span>⏱️</span>
+                    <span id="lbl-timer">90:00</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div id="question-container"></div>
+
+                <div class="action-row mt-4">
+                    <button class="btn btn-secondary" style="width: 30%;" onclick="navSoal(-1)">&larr; Prev</button>
+                    <button class="btn btn-warning" id="btn-doubt" style="width: 40%;" onclick="toggleRagu()">🟡 Ragu</button>
+                    <button class="btn btn-secondary" style="width: 30%;" onclick="navSoal(1)">Next &rarr;</button>
+                </div>
+
+                <div class="action-row mt-2">
+                    <button class="btn btn-secondary" onclick="openNavGrid()">📋 Navigasi Soal</button>
+                    <button class="btn btn-primary" onclick="keKonfirmasi()">Selesai & Kumpulkan &rarr;</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-konfirmasi" class="view-section">
+            <div class="card text-center">
+                <h3 class="mb-2" style="color: var(--primary-blue);">Konfirmasi Pengumpulan Jawaban</h3>
+                <p class="text-muted mb-4">Periksa kembali rekapitulasi pengerjaan Anda sebelum mengumpulkan secara permanen.</p>
+
+                <div style="background: #f8fafc; padding: 16px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); text-align: left;">
+                    <p style="font-size: 0.95rem; margin-bottom: 8px;">✅ Soal Terjawab: <strong id="cnt-dijawab" style="color: var(--success-green);">0</strong> / 25</p>
+                    <p style="font-size: 0.95rem; margin-bottom: 8px;">❌ Soal Belum Terisi: <strong id="cnt-kosong" style="color: var(--danger-red);">25</strong> / 25</p>
+                    <p id="warning-ragu-text" style="font-size: 0.85rem; color: #d97706; display: none;">🟡 Perhatian: Anda masih memiliki soal yang ditandai <strong>RAGU-RAGU</strong>.</p>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn btn-secondary" onclick="switchView('view-ujian')">&larr; Kembali Mengerjakan</button>
+                    <button class="btn btn-primary" onclick="finalKumpulkanJawaban()">YA, KUMPULKAN JAWABAN NOW</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-hasil" class="view-section">
+            <div class="card text-center">
+                <h3 style="color: var(--primary-blue);" class="mb-2">Ujian Selesai!</h3>
+                <p class="text-muted mb-4">Jawaban Anda telah tersimpan dengan aman pada perangkat ini.</p>
+
+                <div id="box-skor-siswa" class="score-card">
+                    <div>Nilai Akhir Pilihan Ganda</div>
+                    <div class="score-val" id="val-skor-pg">0</div>
+                    <div class="text-muted" id="lbl-detail-pg">Benar: 0 / 20 Soal</div>
+                    <p style="font-size: 0.8rem; margin-top: 8px; color: #1e40af;">*Catatan: Nilai akhir keseluruhan dihitung setelah Guru mengoreksi 5 Soal Uraian.</p>
+                </div>
+
+                <div id="box-skor-hidden" class="alert alert-info text-center" style="display: none;">
+                    <strong>Jawaban Berhasil Terkumpul!</strong><br>
+                    Nilai disembunyikan sampai seluruh pemeriksaan selesai oleh Pak Kasim.
+                </div>
+
+                <div style="text-align: left; background: #f8fafc; padding: 14px; border-radius: 12px;" class="mb-4">
+                    <p style="font-size: 0.9rem;">Nama: <strong id="res-nama">-</strong></p>
+                    <p style="font-size: 0.9rem;">Kelas / No: <strong id="res-kelas">-</strong> / <strong id="res-no">-</strong></p>
+                    <p style="font-size: 0.9rem;">Waktu Selesai: <strong id="res-waktu">-</strong></p>
+                </div>
+
+                <div class="alert alert-warning" style="text-align: left; font-size: 0.85rem;">
+                    📲 <strong>Langkah Pengumpulan File:</strong> Klik tombol di bawah ini lalu kirimkan file JSON yang terunduh kepada Pak Kasim Wattimena.
+                </div>
+
+                <div class="action-row mb-2">
+                    <button class="btn btn-primary" onclick="eksporHasilJSON()">📥 Ekspor File Jawaban (JSON)</button>
+                </div>
+                <div class="action-row">
+                    <button class="btn btn-secondary" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+                    <button class="btn btn-secondary" onclick="switchView('view-beranda')">Beranda &rarr;</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-profil" class="view-section">
+            <div class="card">
+                <h3 class="mb-2" style="color: var(--primary-blue);">Profil Peserta Didik & Sekolah</h3>
+                <p class="text-muted mb-4">Informasi identitas peserta didik dan pengampu mata pelajaran.</p>
+
+                <div style="background: #f8fafc; padding: 16px; border-radius: 12px; margin-bottom: 16px; border: 1px solid var(--border-color); text-align: left;">
+                    <h4 style="color: var(--primary-blue); font-size: 0.95rem;" class="mb-2">👤 Data Peserta Didik:</h4>
+                    <p style="font-size: 0.9rem;">Nama Lengkap: <strong id="prof-nama">Belum Diisi</strong></p>
+                    <p style="font-size: 0.9rem;">Kelas / Rombel: <strong id="prof-kelas">Belum Diisi</strong></p>
+                    <p style="font-size: 0.9rem;">Nomor Peserta / Absen: <strong id="prof-no">Belum Diisi</strong></p>
+                    <p style="font-size: 0.9rem;">Status Ujian: <strong id="prof-status">Belum Mengerjakan</strong></p>
+                </div>
+
+                <div style="background: #eff6ff; padding: 16px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #bfdbfe; text-align: left;">
+                    <h4 style="color: var(--primary-blue); font-size: 0.95rem;" class="mb-2">🏫 Identitas Sekolah:</h4>
+                    <p style="font-size: 0.9rem;">Sekolah: <strong>SMA Negeri 29 Maluku Tengah</strong></p>
+                    <p style="font-size: 0.9rem;">Mata Pelajaran: <strong>Kimia Kelas XI</strong></p>
+                    <p style="font-size: 0.9rem;">Guru Pengampu: <strong>Muh. Kasim Wattimena, S.Pd.</strong></p>
+                    <p style="font-size: 0.9rem;">Kurikulum: <strong>Kurikulum Merdeka</strong></p>
+                    <p style="font-size: 0.9rem;">Versi Sistem: <strong>2.5 Offline Native Standalone</strong></p>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn btn-secondary" onclick="goBackView()">&larr; Kembali</button>
+                    <button class="btn btn-primary" onclick="switchView('view-identitas')">Edit Identitas &rarr;</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-sertifikat" class="view-section">
+            <div class="card">
+                <div id="cert-render-area" class="certificate-box">
+                    <div class="cert-header">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">PEMERINTAH KABUPATEN MALUKU TENGAH</div>
+                        <div style="font-size: 1.1rem; font-weight: 800; color: var(--primary-blue);">SMA NEGERI 29 MALUKU TENGAH</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Sertifikat Apresiasi & Partisipasi Asesmen Sumatif</div>
+                    </div>
+
+                    <div class="cert-title">SERTIFIKAT KELULUSAN UJIAN</div>
+                    <p style="font-size: 0.85rem; margin-top: 10px;" class="text-muted">Diberikan kepada peserta didik:</p>
+                    
+                    <div style="font-size: 1.4rem; font-weight: 800; color: var(--text-main); margin: 12px 0; border-bottom: 1px dashed var(--border-color); display: inline-block; padding: 0 20px;" id="cert-nama">
+                        [NAMA PESERTA DIDIK]
+                    </div>
+
+                    <p style="font-size: 0.9rem; line-height: 1.5;">
+                        Kelas: <strong id="cert-kelas">XI.A / XI.B</strong> | No. Absen: <strong id="cert-no">-</strong><br>
+                        Telah menyelesaikan <strong>Asesmen Sumatif Tengah Semester (STS) Kimia Kelas XI</strong><br>
+                        Tahun Pelajaran 2024/2025 dengan status <strong>SELESAI & TERVERIFIKASI</strong>.
+                    </p>
+
+                    <!-- Tampilan Nilai Akhir & Kata Motivasi -->
+                    <div style="margin: 16px 0; padding: 12px; background: #f0f9ff; border-radius: 12px; border: 1px solid #bae6fd;">
+                        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Nilai Akhir Pilihan Ganda</div>
+                        <div style="font-size: 2.2rem; font-weight: 800; color: var(--primary-blue); line-height: 1.1; margin: 4px 0;" id="cert-score">0.0</div>
+                        <div style="font-size: 0.88rem; font-style: italic; color: #0369a1; margin-top: 6px; padding: 0 8px; line-height: 1.4;" id="cert-motivasi">
+                            -
+                        </div>
+                    </div>
+
+                    <div class="cert-stamp">✓ ASESMEN TERLAKSANA SECARA MANDIRI</div>
+
+                    <div style="display: flex; justify-content: space-between; margin-top: 30px; padding-top: 10px; text-align: center; font-size: 0.8rem;">
+                        <div>
+                            <p>Status Sistem:</p>
+                            <p><strong>100% Valid (Offline)</strong></p>
+                        </div>
+                        <div>
+                            <p>Guru Mata Pelajaran Kimia,</p>
+                            <br><br>
+                            <p><strong><u>Muh. Kasim Wattimena, S.Pd.</u></strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn btn-secondary" onclick="goBackView()">&larr; Kembali</button>
+                    <button class="btn btn-primary" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Navigation Grid Modal -->
+    <div id="modal-nav" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="mb-2" style="color: var(--primary-blue);">Peta Navigasi Soal</h3>
+            <p class="text-muted mb-4">Klik nomor soal untuk berpindah halaman secara langsung.</p>
+            <div id="nav-grid-container" class="nav-grid"></div>
+            <button class="btn btn-secondary mt-4" onclick="closeNavGrid()">Tutup Navigasi</button>
+        </div>
+    </div>
+
+    <!-- Teacher Dashboard Modal -->
+    <div id="modal-guru" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="mb-2" style="color: var(--primary-blue);">Panel Pengaturan Guru</h3>
+            
+            <div id="guru-auth-box">
+                <p class="text-muted mb-4">Masukkan PIN Akses Guru untuk melanjutkan:</p>
+                <div class="form-group">
+                    <input type="password" id="pin-guru-input" class="form-control" placeholder="Masukkan PIN Guru">
+                </div>
+                <button class="btn btn-primary" onclick="authGuru()">Masuk Panel Guru</button>
+                <button class="btn btn-secondary mt-4" onclick="toggleGuruModal()">Tutup</button>
+            </div>
+
+            <div id="guru-panel-content" style="display: none;">
+                <div style="border-bottom: 1px solid var(--border-color);" class="mb-4 pb-2">
+                    <strong>Muh. Kasim Wattimena, S.Pd.</strong>
+                </div>
+
+                <div class="form-group">
+                    <label>Tampilkan Nilai Langsung ke Siswa?</label>
+                    <select id="cfg-show-score" class="form-control" onchange="updateGuruSettings()">
+                        <option value="true">Ya, Tampilkan Langsung</option>
+                        <option value="false">Sembunyikan Nilai</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Durasi Ujian (Menit)</label>
+                    <input type="number" id="cfg-duration" class="form-control" value="90" onchange="updateGuruSettings()">
+                </div>
+
+                <hr class="mb-4">
+
+                <h4 class="mb-2" style="font-size: 0.95rem; color: var(--primary-blue);">🔐 Pengaturan PIN Akses Guru</h4>
+                <div class="form-group">
+                    <label>PIN Baru</label>
+                    <input type="password" id="cfg-pin-new" class="form-control" placeholder="Masukkan PIN baru (min. 4 angka)">
+                </div>
+                <div class="form-group">
+                    <label>Konfirmasi PIN Baru</label>
+                    <input type="password" id="cfg-pin-confirm" class="form-control" placeholder="Ulangi PIN baru">
+                </div>
+                <button class="btn btn-primary mb-2" onclick="simpanPinBaru()">💾 Ubah & Simpan PIN Baru</button>
+
+                <hr class="mb-4 mt-4">
+
+                <h4 class="mb-2" style="font-size: 0.95rem;">Rekapitulasi & Impor Jawaban Siswa</h4>
+                <div class="action-row mb-2">
+                    <button class="btn btn-secondary" onclick="imporFileSiswa()">📂 Impor File JSON Siswa</button>
+                    <input type="file" id="file-input-json" accept=".json" style="display:none;" onchange="handleFileImport(event)">
+                </div>
+
+                <button class="btn btn-danger mt-4" onclick="resetSesiUjian()">🔄 Reset Sesi Ujian HP Ini</button>
+                <button class="btn btn-secondary mt-4" onclick="toggleGuruModal()">Tutup Panel Guru</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lock Screen Modal -->
+    <div id="modal-lock-screen" class="modal-overlay" style="z-index: 999; background: rgba(15, 23, 42, 0.95);">
+        <div class="modal-content text-center" style="border: 2px solid var(--danger-red);">
+            <div style="font-size: 3rem; margin-bottom: 8px;">🔒</div>
+            <h3 class="mb-2" style="color: var(--danger-red);">LAYAR UJIAN TERKUNCI!</h3>
+            <p class="text-muted mb-4">
+                Terdeteksi adanya aktivitas berpindah tab atau meninggalkan aplikasi saat ujian berlangsung. Layar dikunci secara otomatis demi menjaga kejujuran.
+            </p>
+            <div class="alert alert-warning mb-4" style="text-align: left; font-size: 0.85rem;">
+                ⚠️ <strong>Instruksi Siswa:</strong> Laporkan kepada Guru / Pengawas (<strong>Pak Kasim Wattimena</strong>) untuk memasukkan PIN Akses agar kunci ujian dapat dibuka kembali.
+            </div>
+
+            <div class="form-group" style="text-align: left;">
+                <label>PIN Akses Guru / Pengawas:</label>
+                <input type="password" id="pin-unlock-input" class="form-control" placeholder="Masukkan PIN Guru">
+            </div>
+            
+            <div id="lock-error-msg" style="color: var(--danger-red); font-weight: 600; font-size: 0.85rem; display: none;" class="mb-2">
+                ❌ PIN Akses Guru salah!
+            </div>
+
+            <button class="btn btn-danger" onclick="unlockExamByGuru()">🔓 Buka Kunci Layar Ujian</button>
+        </div>
+    </div>
+
+    <!-- Custom Toast Alert Modal -->
+    <div id="modal-toast" class="modal-overlay">
+        <div class="modal-content text-center">
+            <h4 id="toast-title" style="color: var(--primary-blue);" class="mb-2">Pemberitahuan</h4>
+            <p id="toast-body" class="text-muted mb-4">-</p>
+            <button class="btn btn-primary" onclick="closeToast()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // GLOBAL QUESTION BANK DATASET (20 PG + 5 ESSAY HOTS LITERACY)
+        const BANK_SOAL = [
+            {
+                id: 1,
+                type: 'PG',
+                materi: 'Hidrokarbon & Minyak Atsiri',
+                text: 'Minyak kayu putih hasil penyulingan di Maluku Tengah mengandung minyak atsiri alami. Komponen utama hidrokarbon alifatik jenuh dengan rumus molekul C6H14 memiliki isomer rantai. Manakah isomer alifatik jenuh dari C6H14 yang memiliki satu atom C tersier?',
+                options: ['2-metilpentana', '3-metilpentana', '2,2-dimetilbutana', '2,3-dimetilbutana', 'n-heksana'],
+                key: 'A'
+            },
+            {
+                id: 2,
+                type: 'PG',
+                materi: 'Hidrokarbon & Kekhasan Atom Karbon',
+                text: 'Kekhasan atom karbon yang mampu membentuk rantai panjang kovalen menjadi dasar kelimpahan senyawa hidrokarbon di alam. Pada molekul 2,2,4-trimetilpentana, berapa jumlah atom C primer, sekunder, dan tersier berturut-turut?',
+                options: ['5, 1, 1', '5, 2, 1', '4, 2, 1', '5, 1, 2', '4, 1, 2'],
+                key: 'A'
+            },
+            {
+                id: 3,
+                type: 'PG',
+                materi: 'Alkana & Tata Nama IUPAC',
+                text: 'Suatu sampel bahan bakar lokal diuji dan menghasilkan struktur hidrokarbon bercabang: CH3-CH(CH3)-CH2-CH(C2H5)-CH3. Nama yang tepat berdasarkan aturan resmi IUPAC adalah...',
+                options: ['2-metil-4-etilpentana', '4-etil-2-metilpentana', '2,4-dimetilheksana', '3,5-dimetilheksana', '2-etil-4-metilpentana'],
+                key: 'C'
+            },
+            {
+                id: 4,
+                type: 'PG',
+                materi: 'Alkena & Isomeri',
+                text: 'Gas etena (C2H4) memicu kematangan buah pala di perkebunan Maluku. Jika homolog alkena memiliki rumus C4H8, manakah di antara pasangan berikut yang merupakan isomer posisi?',
+                options: ['1-butena dan 2-butena', '1-butena dan 2-metilpropena', '2-butena dan siklobutana', '1-butena dan butana', '2-metilpropena dan 2-butena'],
+                key: 'A'
+            },
+            {
+                id: 5,
+                type: 'PG',
+                materi: 'Reaksi Pembakaran Hidrokarbon',
+                text: 'Pembakaran tak sempurna dari hidrokarbon kendaraan bermotor menghasilkan gas beracun tanpa warna dan tidak berbau yang mengikat hemoglobin darah lebih kuat dari oksigen. Gas berbahaya tersebut adalah...',
+                options: ['Karbondioksida (CO2)', 'Karbonmonoksida (CO)', 'Sulfur dioksida (SO2)', 'Nitrogen oksida (NO2)', 'Metana (CH4)'],
+                key: 'B'
+            },
+            {
+                id: 6,
+                type: 'PG',
+                materi: 'Minyak Bumi & Fraksi',
+                text: 'Proses pengolahan minyak bumi menggunakan prinsip pemisahan fraksi berdasarkan perbedaan titik didih yang disebut destilasi bertingkat. Fraksi hasil destilasi bertingkat yang memiliki titik didih paling rendah adalah...',
+                options: ['Bensin (Gasolin)', 'Kerosin (Minyak tanah)', 'LPG (Gas Petroleum Cair)', 'Solar (Minyak Diesel)', 'Lilin paraffin'],
+                key: 'C'
+            },
+            {
+                id: 7,
+                type: 'PG',
+                materi: 'Mutu Bensin & Angka Oktan',
+                text: 'Suatu bensin Pertamax memiliki mutu setara dengan campuran 92% isooktana dan 8% n-heptana. Manakah pernyataan yang paling benar mengenai mutu bensin tersebut?',
+                options: ['Memiliki angka oktan 92 dan ketukan (knocking) relatif rendah', 'Memiliki angka oktan 8 dan mudah mengalami knocking', 'Mengandung 92% n-heptana yang memperhalus mesin', 'Mengandung 8% isooktana yang mengurangi polusi', 'Angka oktannya 100 karena ramah lingkungan'],
+                key: 'A'
+            },
+            {
+                id: 8,
+                type: 'PG',
+                materi: 'Dampak Pembakaran Bahan Bakar',
+                text: 'Pembangkit listrik lokal membakar bahan bakar fosil yang mengandung kelumit belerang (S). Pembakaran ini menghasilkan gas SO2 yang jika bereaksi dengan uap air di udara akan mengakibatkan peristiwa lingkungan yaitu...',
+                options: ['Pemanasan global', 'Hujan asam', 'Penipisan lapisan ozon', 'Efek rumah kaca', 'Eutrofikasi perairan'],
+                key: 'B'
+            },
+            {
+                id: 9,
+                type: 'PG',
+                materi: 'Konsep Mol & Jumlah Partikel',
+                text: 'Petani di Maluku Tengah menggunakan pupuk urea CO(NH2)2 untuk meningkatkan kesuburan tanaman. Jika massa molar relatif Urea (Mr = 60 g/mol), berapa jumlah molekul urea yang terkandung dalam 12 gram pupuk urea murni? (L = 6,02 x 10^23 molekul/mol)',
+                options: ['1,204 x 10^23 molekul', '6,02 x 10^23 molekul', '3,01 x 10^23 molekul', '1,204 x 10^22 molekul', '6,02 x 10^22 molekul'],
+                key: 'A'
+            },
+            {
+                id: 10,
+                type: 'PG',
+                materi: 'Konsep Mol & Massa Molar',
+                text: 'Garam dapur murni (NaCl) dikonsumsi masyarakat pesisir Maluku Tengah. Jika diketahui Ar Na = 23 g/mol dan Ar Cl = 35,5 g/mol, maka massa dari 0,2 mol NaCl murni tersebut adalah...',
+                options: ['11,7 gram', '58,5 gram', '29,25 gram', '117 gram', '5,85 gram'],
+                key: 'A'
+            },
+            {
+                id: 11,
+                type: 'PG',
+                materi: 'Volume Molar Gas (STP)',
+                text: 'Pada keadaan standar (STP: 0°C, 1 atm), volume dari 4,4 gram gas karbon dioksida (CO2) hasil fermentasi sagu lokal adalah... (Ar C = 12, O = 16)',
+                options: ['2,24 Liter', '4,48 Liter', '22,4 Liter', '1,12 Liter', '0,224 Liter'],
+                key: 'A'
+            },
+            {
+                id: 12,
+                type: 'PG',
+                materi: 'Rumus Empiris & Rumus Molekul',
+                text: 'Hasil analisis laboratorium terhadap senyawa asam organik menemukan kandungan 40% Karbon, 6,67% Hidrogen, dan sisa Oksigen. Rumus empiris (RE) senyawa asam organik tersebut adalah... (Ar C=12, H=1, O=16)',
+                options: ['CH2O', 'CHO', 'C2H4O2', 'CH3O', 'C2H2O'],
+                key: 'A'
+            },
+            {
+                id: 13,
+                type: 'PG',
+                materi: 'Persen Massa Unsur',
+                text: 'Kalsium karbonat (CaCO3) terdapat pada cangkang kerang laut pesisir Maluku. Persentase massa kalsium (Ca) dalam molekul CaCO3 murni adalah... (Ar Ca=40, C=12, O=16)',
+                options: ['40%', '12%', '48%', '50%', '20%'],
+                key: 'A'
+            },
+            {
+                id: 14,
+                type: 'PG',
+                materi: 'Persamaan Reaksi Setara',
+                text: 'Reaksi gas propana dengan oksigen mengikuti persamaan: C3H8(g) + a O2(g) -> b CO2(g) + c H2O(g). Nilai koefisien reaksi a, b, dan c yang benar secara berturut-turut adalah...',
+                options: ['5, 3, 4', '3, 5, 4', '5, 4, 3', '4, 3, 5', '2, 3, 4'],
+                key: 'A'
+            },
+            {
+                id: 15,
+                type: 'PG',
+                materi: 'Pereaksi Pembatas',
+                text: 'Sebanyak 2 mol gas N2 direaksikan dengan 3 mol gas H2 menghasilkan gas amonia (NH3) sesuai persamaan: N2(g) + 3 H2(g) -> 2 NH3(g). Manakah yang bertindak sebagai pereaksi pembatas?',
+                options: ['Gas H2', 'Gas N2', 'Gas NH3', 'Tidak ada pembatas', 'Kedua reaktan habis bersamaan'],
+                key: 'A'
+            },
+            {
+                id: 16,
+                type: 'PG',
+                materi: 'Hukum Gay-Lussac',
+                text: 'Pada suhu dan tekanan yang sama, 5 Liter gas metana (CH4) dibakar sempurna menurut reaksi: CH4(g) + 2 O2(g) -> CO2(g) + 2 H2O(g). Volume gas oksigen murni yang dibutuhkan adalah...',
+                options: ['10 Liter', '5 Liter', '2,5 Liter', '15 Liter', '20 Liter'],
+                key: 'A'
+            },
+            {
+                id: 17,
+                type: 'PG',
+                materi: 'Stoikiometri Larutan',
+                text: 'Konsentrasi larutan pupuk NPK sebesar 0,5 M dibuat dengan melarutkan sejumlah zat dalam air hingga volume 500 mL. Berapa jumlah mol zat terlarut dalam pupuk tersebut?',
+                options: ['0,25 mol', '0,5 mol', '1,0 mol', '0,1 mol', '2,5 mol'],
+                key: 'A'
+            },
+            {
+                id: 18,
+                type: 'PG',
+                materi: 'Hukum Avogadro',
+                text: 'Pada suhu dan tekanan sejenis, 1 Liter gas N2 mengandung N molekul. Berapa jumlah molekul yang terkandung dalam 3 Liter gas O2 pada kondisi sejenis tersebut?',
+                options: ['3 N molekul', 'N molekul', '1/3 N molekul', '6 N molekul', '2 N molekul'],
+                key: 'A'
+            },
+            {
+                id: 19,
+                type: 'PG',
+                materi: 'Persen Hasil Reaksi',
+                text: 'Secara teoritis reaksi menghasilkan 10 gram aspirin, namun saat dilakukan sintesis eksperimen hanya diperoleh 8 gram aspirin murni. Berapa persentase hasil (rendemen) eksperimen tersebut?',
+                options: ['80%', '100%', '8%', '125%', '20%'],
+                key: 'A'
+            },
+            {
+                id: 20,
+                type: 'PG',
+                materi: 'Hukum Kekekalan Massa (Lavoisier)',
+                text: 'Logam magnesium sebanyak 2,4 gram dibakar sempurna di udara tertutup menghasilkan 4,0 gram magnesium oksida (MgO). Berapa massa gas oksigen yang bereaksi mengikat magnesium tersebut?',
+                options: ['1,6 gram', '2,4 gram', '4,0 gram', '6,4 gram', '0,8 gram'],
+                key: 'A'
+            },
+            {
+                id: 21,
+                type: 'ESSAY',
+                materi: 'Hidrokarbon & Lingkungan Pesisir',
+                text: 'Masyarakat pesisir di sekitar Maluku Tengah memanfaatkan perahu bermotor diesel. Suatu ketika terjadi tumpahan minyak Solar (hidrokarbon rantai C12-C20) di permukaan air laut lokal. Jelaskan sifat fisik hidrokarbon yang menyebabkan minyak terapung di air laut, dan analisislah dampaknya terhadap respirasi biota perairan!',
+                key: '-'
+            },
+            {
+                id: 22,
+                type: 'ESSAY',
+                materi: 'Atsiri Cengkeh & Isomeri',
+                text: 'Minyak cengkeh khas Maluku mengandung senyawa eugenol (C10H12O2). Tuliskan struktur fungsi dari kelompok hidrokarbon aromatik terikat dan jelaskan mengapa eugenol memiliki titik didih jauh lebih tinggi dibandingkan hidrokarbon alifatik berbobot molekul setara!',
+                key: '-'
+            },
+            {
+                id: 23,
+                type: 'ESSAY',
+                materi: 'Stoikiometri Pertanian Pupuk Urea',
+                text: 'Seorang petani pala di Maluku Tengah membutuhkan 23 gram unsur Nitrogen (N) untuk lahannya. Tersedia pupuk Urea CO(NH2)2 murni. Diketahui Ar N=14, C=12, O=16, H=1. Hitunglah massa pupuk urea murni yang harus ditimbang petani tersebut!',
+                key: '-'
+            },
+            {
+                id: 24,
+                type: 'ESSAY',
+                materi: 'Pereaksi Pembatas Gas Oksigen',
+                text: 'Sebanyak 12 gram Karbon (C) dibakar dalam ruang tertutup dengan 16 gram gas Oksigen (O2) membentuk gas Karbon Dioksida (CO2) menurut reaksi: C(s) + O2(g) -> CO2(g). (Ar C=12, O=16). Tentukan zat pereaksi pembatasnya dan hitunglah massa CO2 yang terbentuk!',
+                key: '-'
+            },
+            {
+                id: 25,
+                type: 'ESSAY',
+                materi: 'Sintesis Garam & Rendemen Hasil',
+                text: 'Dalam percobaan laboratorium sekolah, 10,6 gram Natrium Karbonat (Na2CO3) direaksikan dengan asam klorida berlebih menghasilkan NaCl. Jika hasil nyata NaCl yang didapat di cawan uap adalah 9,36 gram, hitunglah persen rendemen reaksi tersebut! (Ar Na=23, C=12, O=16, Cl=35,5)',
+                key: '-'
+            }
+        ];
+
+        // GLOBAL APPLICATION STATE
+        let state = {
+            student: { nama: '', kelas: '', no: '' },
+            answers: {},
+            doubts: {},
+            currentQIndex: 0,
+            timerRemaining: 0,
+            timerInterval: null,
+            scorePG: 0,
+            submitted: false,
+            tabSwitches: 0,
+            isLocked: false,
+            config: {
+                durationMinutes: 90,
+                showScore: true,
+                weightPG: 70,
+                weightEssay: 30,
+                pinGuru: '1234'
+            }
+        };
+
+        let viewHistory = ['view-beranda'];
+
+        function switchView(viewId, pushHistory = true) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            const target = document.getElementById(viewId);
+            if (target) target.classList.add('active');
+            window.scrollTo(0,0);
+
+            // Control header back button visibility
+            const btnBack = document.getElementById('btn-header-back');
+            if (btnBack) {
+                if (viewId === 'view-beranda' || (viewId === 'view-ujian' && !state.submitted)) {
+                    btnBack.style.display = 'none';
+                } else {
+                    btnBack.style.display = 'inline-flex';
+                }
+            }
+
+            // History management for back navigation
+            if (pushHistory) {
+                if (viewHistory[viewHistory.length - 1] !== viewId) {
+                    viewHistory.push(viewId);
+                    try {
+                        history.pushState({ viewId: viewId }, '', '#' + viewId);
+                    } catch(e) {
+                        console.log('History pushState bypassed');
+                    }
+                }
+            }
+        }
+
+        function goBackView() {
+            if (viewHistory.length > 1) {
+                viewHistory.pop();
+                const prevView = viewHistory[viewHistory.length - 1] || 'view-beranda';
+                switchView(prevView, false);
+            } else {
+                switchView('view-beranda', false);
+            }
+        }
+
+        window.onpopstate = function(event) {
+            if (state.isLocked && state.student.nama && !state.submitted) {
+                checkLockStatus();
+                return;
+            }
+            if (event && event.state && event.state.viewId) {
+                switchView(event.state.viewId, false);
+            } else {
+                goBackView();
+            }
+        };
+
+        function showToast(msg, title = "Pemberitahuan") {
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-body').innerText = msg;
+            document.getElementById('modal-toast').classList.add('active');
+        }
+
+        function closeToast() {
+            document.getElementById('modal-toast').classList.remove('active');
+        }
+
+        function bukaProfil() {
+            document.getElementById('prof-nama').innerText = state.student.nama || 'Belum Diisi';
+            document.getElementById('prof-kelas').innerText = state.student.kelas || 'Belum Diisi';
+            document.getElementById('prof-no').innerText = state.student.no || 'Belum Diisi';
+            document.getElementById('prof-status').innerText = state.submitted ? 'Selesai Dikumpulkan' : (state.student.nama ? 'Sedang Berlangsung' : 'Belum Mengerjakan');
+            switchView('view-profil');
+        }
+
+        function bukaMenuHasil() {
+            if (!state.submitted && !state.student.nama) {
+                showToast("Anda belum mengisi identitas dan belum mengerjakan ujian!", "Ujian Belum Diisi");
+                switchView('view-identitas');
+                return;
+            }
+            switchView('view-hasil');
+            renderHasilScreen();
+        }
+
+        function bukaSertifikat() {
+            if (!state.submitted) {
+                showToast("Sertifikat hanya dapat diakses setelah Anda menyelesaikan dan mengumpulkan ujian!", "Akses Ditolak");
+                return;
+            }
+            document.getElementById('cert-nama').innerText = state.student.nama || 'NAMA PESERTA';
+            document.getElementById('cert-kelas').innerText = state.student.kelas || '-';
+            document.getElementById('cert-no').innerText = state.student.no || '-';
+
+            // Menampilkan Nilai dan Kata Motivasi Dinamis
+            const score = state.scorePG || 0;
+            const scoreEl = document.getElementById('cert-score');
+            const motivasiEl = document.getElementById('cert-motivasi');
+
+            if (scoreEl) scoreEl.innerText = score.toFixed(1);
+
+            let motivasi = "";
+            if (score >= 85) {
+                motivasi = "“Sangat Memuaskan! Pertahankan prestasi gemilangmu, teruslah bernalar kritis dan menjadi inspirasi bagi teman-teman!”";
+            } else if (score >= 70) {
+                motivasi = "“Sangat Baik! Hasil pengerjaan yang solid. Tingkatkan terus rasa ingin tahu dan semangat belajarmu!”";
+            } else if (score >= 55) {
+                motivasi = "“Cukup Baik! Pelajari kembali materi yang belum dikuasai dengan tekun, kamu pasti bisa lebih baik lagi!”";
+            } else {
+                motivasi = "“Tetap Semangat! Setiap evaluasi adalah pijakan untuk bangkit. Jangan menyerah dan teruslah berlatih!”";
+            }
+
+            if (motivasiEl) motivasiEl.innerText = motivasi;
+
+            switchView('view-sertifikat');
+        }
+
+        function bukaDasborGuru() {
+            toggleGuruModal();
+        }
+
+        function renderBerandaInfo() {
+            document.getElementById('label-durasi').innerText = state.config.durationMinutes;
+        }
+
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('STS_KIMIA_STATE', JSON.stringify(state));
+            } catch(e) {
+                console.error("Gagal menyimpan ke localStorage:", e);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('STS_KIMIA_STATE');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state = { ...state, ...parsed };
+                    
+                    if (state.student && state.student.nama) {
+                        document.getElementById('student-name').value = state.student.nama || '';
+                        document.getElementById('student-class').value = state.student.kelas || '';
+                        document.getElementById('student-no').value = state.student.no || '';
+                    }
+
+                    if (state.student.nama && !state.submitted) {
+                        switchView('view-ujian');
+                        renderQuestion();
+                        startTimer();
+                        checkLockStatus();
+                    } else if (state.submitted) {
+                        switchView('view-hasil');
+                        renderHasilScreen();
+                    }
+                } catch(e) {
+                    console.error("Gagal membaca storage local:", e);
+                }
+            }
+        }
+
+        function checkLockStatus() {
+            const lockModal = document.getElementById('modal-lock-screen');
+            if (state.isLocked && state.student.nama && !state.submitted) {
+                if (lockModal) lockModal.classList.add('active');
+            } else {
+                if (lockModal) lockModal.classList.remove('active');
+            }
+        }
+
+        function unlockExamByGuru() {
+            const inputPin = document.getElementById('pin-unlock-input').value.trim();
+            const currentPin = state.config.pinGuru || '1234';
+            const errEl = document.getElementById('lock-error-msg');
+            
+            if (inputPin === currentPin) {
+                state.isLocked = false;
+                saveToLocalStorage();
+                if (errEl) errEl.style.display = 'none';
+                document.getElementById('pin-unlock-input').value = '';
+                checkLockStatus();
+            } else {
+                if (errEl) {
+                    errEl.style.display = 'block';
+                    errEl.innerText = '❌ PIN Akses Guru salah!';
+                }
+            }
+        }
+
+        function setupSecurityListeners() {
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden && state.student.nama && !state.submitted) {
+                    state.tabSwitches++;
+                    state.isLocked = true;
+                    saveToLocalStorage();
+                    checkLockStatus();
+                }
+            });
+
+            window.addEventListener('blur', function() {
+                if (state.student.nama && !state.submitted) {
+                    state.tabSwitches++;
+                    state.isLocked = true;
+                    saveToLocalStorage();
+                    checkLockStatus();
+                }
+            });
+        }
+
+        function simpanIdentitas() {
+            const nama = document.getElementById('student-name').value.trim();
+            const kelas = document.getElementById('student-class').value;
+            const no = document.getElementById('student-no').value.trim();
+
+            if (!nama || !kelas || !no) {
+                showToast("Harap lengkapi semua kolom identitas wajib!", "Form Belum Lengkap");
+                return;
+            }
+
+            state.student = { nama, kelas, no };
+            saveToLocalStorage();
+            switchView('view-petunjuk');
+        }
+
+        function mulaiUjianSimpan() {
+            if (!state.timerRemaining || state.timerRemaining <= 0) {
+                state.timerRemaining = state.config.durationMinutes * 60;
+            }
+            saveToLocalStorage();
+            switchView('view-ujian');
+            renderQuestion();
+            startTimer();
+        }
+
+        function startTimer() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+
+            state.timerInterval = setInterval(() => {
+                if (state.timerRemaining <= 0) {
+                    clearInterval(state.timerInterval);
+                    showToast("Waktu pengerjaan ujian telah habis! Jawaban Anda dikumpulkan otomatis.", "Waktu Habis");
+                    finalKumpulkanJawaban();
+                    return;
+                }
+                state.timerRemaining--;
+                saveToLocalStorage();
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(state.timerRemaining / 60);
+            const s = state.timerRemaining % 60;
+            const str = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            const el = document.getElementById('lbl-timer');
+            if (el) el.innerText = str;
+        }
+
+        function renderQuestion() {
+            const q = BANK_SOAL[state.currentQIndex];
+            const container = document.getElementById('question-container');
+            
+            document.getElementById('lbl-question-num').innerText = `Soal No ${q.id} / ${BANK_SOAL.length}`;
+
+            let html = `
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 8px; text-align: left;">
+                    MATERI: ${q.materi.toUpperCase()} (${q.type === 'PG' ? 'PILIHAN GANDA' : 'URAIAN / ESAI'})
+                </div>
+                <div class="question-text">${q.text}</div>
+            `;
+
+            if (q.type === 'PG') {
+                html += `<div class="options-list">`;
+                const labels = ['A', 'B', 'C', 'D', 'E'];
+                q.options.forEach((opt, idx) => {
+                    const key = labels[idx];
+                    const isSelected = state.answers[q.id] === key;
+                    html += `
+                        <div class="option-item ${isSelected ? 'selected' : ''}" onclick="selectPG(${q.id}, '${key}')">
+                            <div class="option-key">${key}</div>
+                            <div class="option-content">${opt}</div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            } else {
+                const val = state.answers[q.id] || '';
+                html += `
+                    <div class="form-group">
+                        <label>Jawaban Uraian Anda:</label>
+                        <textarea class="essay-textarea" placeholder="Tuliskan jawaban lengkap beserta penjelasan/perhitungan di sini..." oninput="saveEssay(${q.id}, this.value)">${val}</textarea>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+
+            const btnDoubt = document.getElementById('btn-doubt');
+            if (state.doubts[q.id]) {
+                btnDoubt.style.background = '#d97706';
+                btnDoubt.style.color = '#fff';
+                btnDoubt.innerText = '🟡 Ragu-Ragu (Aktif)';
+            } else {
+                btnDoubt.style.background = 'var(--warning-yellow)';
+                btnDoubt.style.color = '#78350f';
+                btnDoubt.innerText = '🟡 Ragu-Ragu';
+            }
+        }
+
+        function selectPG(qId, key) {
+            state.answers[qId] = key;
+            saveToLocalStorage();
+            renderQuestion();
+        }
+
+        function saveEssay(qId, val) {
+            state.answers[qId] = val;
+            saveToLocalStorage();
+        }
+
+        function toggleRagu() {
+            const qId = BANK_SOAL[state.currentQIndex].id;
+            state.doubts[qId] = !state.doubts[qId];
+            saveToLocalStorage();
+            renderQuestion();
+        }
+
+        function navSoal(step) {
+            const nextIdx = state.currentQIndex + step;
+            if (nextIdx >= 0 && nextIdx < BANK_SOAL.length) {
+                state.currentQIndex = nextIdx;
+                renderQuestion();
+            }
+        }
+
+        function openNavGrid() {
+            const grid = document.getElementById('nav-grid-container');
+            let html = '';
+            
+            BANK_SOAL.forEach((q, idx) => {
+                const isAnswered = state.answers[q.id] && state.answers[q.id].toString().trim() !== '';
+                const isDoubt = state.doubts[q.id];
+                const isCurrent = state.currentQIndex === idx;
+
+                let cls = 'nav-num';
+                if (isAnswered) cls += ' answered';
+                if (isDoubt) cls += ' doubt';
+                if (isCurrent) cls += ' current';
+
+                html += `<div class="${cls}" onclick="jumpToQuestion(${idx})">${q.id}</div>`;
+            });
+
+            grid.innerHTML = html;
+            document.getElementById('modal-nav').classList.add('active');
+        }
+
+        function closeNavGrid() {
+            document.getElementById('modal-nav').classList.remove('active');
+        }
+
+        function jumpToQuestion(idx) {
+            state.currentQIndex = idx;
+            closeNavGrid();
+            renderQuestion();
+        }
+
+        function keKonfirmasi() {
+            const dijawab = Object.keys(state.answers).filter(k => state.answers[k] && state.answers[k].toString().trim() !== '').length;
+            const kosong = BANK_SOAL.length - dijawab;
+            
+            document.getElementById('cnt-dijawab').innerText = dijawab;
+            document.getElementById('cnt-kosong').innerText = kosong;
+
+            const hasRagu = Object.keys(state.doubts).some(k => state.doubts[k] === true);
+            document.getElementById('warning-ragu-text').style.display = hasRagu ? 'block' : 'none';
+
+            switchView('view-konfirmasi');
+        }
+
+        function finalKumpulkanJawaban() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            
+            let correctPG = 0;
+            BANK_SOAL.filter(q => q.type === 'PG').forEach(q => {
+                if (state.answers[q.id] === q.key) {
+                    correctPG++;
+                }
+            });
+
+            state.scorePG = (correctPG / 20) * 100;
+            state.submitted = true;
+            saveToLocalStorage();
+
+            switchView('view-hasil');
+            renderHasilScreen();
+        }
+
+        function renderHasilScreen() {
+            document.getElementById('res-nama').innerText = state.student.nama || '-';
+            document.getElementById('res-kelas').innerText = state.student.kelas || '-';
+            document.getElementById('res-no').innerText = state.student.no || '-';
+            document.getElementById('res-waktu').innerText = new Date().toLocaleString('id-ID');
+
+            if (state.config.showScore) {
+                document.getElementById('box-skor-siswa').style.display = 'block';
+                document.getElementById('box-skor-hidden').style.display = 'none';
+                
+                let correctPG = 0;
+                BANK_SOAL.filter(q => q.type === 'PG').forEach(q => {
+                    if (state.answers[q.id] === q.key) correctPG++;
+                });
+
+                document.getElementById('val-skor-pg').innerText = state.scorePG.toFixed(1);
+                document.getElementById('lbl-detail-pg').innerText = `Benar: ${correctPG} / 20 Soal Pilihan Ganda`;
+            } else {
+                document.getElementById('box-skor-siswa').style.display = 'none';
+                document.getElementById('box-skor-hidden').style.display = 'block';
+            }
+        }
+
+        function eksporHasilJSON() {
+            const exportData = {
+                identitas: state.student,
+                mataPelajaran: "Kimia Kelas XI",
+                satuanPendidikan: "SMA Negeri 29 Maluku Tengah",
+                guruPengampu: "Muh. Kasim Wattimena, S.Pd.",
+                waktuSelesai: new Date().toISOString(),
+                skorPilihanGanda: state.scorePG,
+                jawabanSiswa: state.answers,
+                pencatatanKecurangan: { tabSwitches: state.tabSwitches }
+            };
+
+            const jsonStr = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([jsonStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `STS_KIMIA_XI_${state.student.kelas}_${(state.student.nama || 'SISWA').replace(/\s+/g, '_')}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function toggleGuruModal() {
+            const modal = document.getElementById('modal-guru');
+            modal.classList.toggle('active');
+        }
+
+        function authGuru() {
+            const pin = document.getElementById('pin-guru-input').value.trim();
+            const currentPin = state.config.pinGuru || '1234';
+            if (pin === currentPin) {
+                document.getElementById('guru-auth-box').style.display = 'none';
+                document.getElementById('guru-panel-content').style.display = 'block';
+                document.getElementById('pin-guru-input').value = '';
+            } else {
+                showToast("PIN Akses Guru Salah!", "Akses Ditolak");
+            }
+        }
+
+        function simpanPinBaru() {
+            const pinBaru = document.getElementById('cfg-pin-new').value.trim();
+            const pinKonf = document.getElementById('cfg-pin-confirm').value.trim();
+
+            if (!pinBaru) {
+                showToast("Harap masukkan PIN baru!", "Form Kosong");
+                return;
+            }
+            if (pinBaru.length < 4) {
+                showToast("PIN minimal terdiri dari 4 karakter/angka!", "PIN Terlalu Pendek");
+                return;
+            }
+            if (pinBaru !== pinKonf) {
+                showToast("Konfirmasi PIN tidak cocok! Periksa kembali.", "PIN Tidak Cocok");
+                return;
+            }
+
+            state.config.pinGuru = pinBaru;
+            saveToLocalStorage();
+            
+            document.getElementById('cfg-pin-new').value = '';
+            document.getElementById('cfg-pin-confirm').value = '';
+            showToast("PIN Akses Guru berhasil diperbarui! Gunakan PIN baru ini untuk dasbor guru selanjutnya.", "PIN Diperbarui");
+        }
+
+        function updateGuruSettings() {
+            const showScore = document.getElementById('cfg-show-score').value === 'true';
+            const dur = parseInt(document.getElementById('cfg-duration').value) || 90;
+
+            state.config.showScore = showScore;
+            state.config.durationMinutes = dur;
+
+            saveToLocalStorage();
+            renderBerandaInfo();
+            showToast("Pengaturan Guru berhasil diperbarui!", "Pengaturan Disimpan");
+        }
+
+        function resetSesiUjian() {
+            localStorage.removeItem('STS_KIMIA_STATE');
+            location.reload();
+        }
+
+        function imporFileSiswa() {
+            document.getElementById('file-input-json').click();
+        }
+
+        function handleFileImport(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const data = JSON.parse(evt.target.result);
+                    showToast(`Berhasil mengimpor data jawaban siswa:\n\nNama: ${data.identitas.nama}\nKelas: ${data.identitas.kelas}\nNilai PG: ${data.skorPilihanGanda}`, "Impor Berhasil");
+                } catch(err) {
+                    showToast("File JSON tidak valid atau rusak!", "Impor Gagal");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        window.onload = function() {
+            loadFromLocalStorage();
+            renderBerandaInfo();
+            setupSecurityListeners();
+        };
+    </script>
+</body>
+</html>
